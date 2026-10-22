@@ -1,0 +1,35 @@
+{
+  "name": "aula-01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^8.0.5",
+    "@babel/preset-env": "^8.0.5",
+    "@babel/preset-typescript": "^8.0.1",
+    "@jest/globals": "^30.5.1",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/jest": "^30.0.0",
+    "@types/prompt-sync": "^4.2.3",
+    "babel-jest": "^30.5.1",
+    "jest": "^30.5.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "better-sqlite3": "^13.0.3",
+    "prompt-sync": "^4.2.0",
+    "uuid": "^14.0.2"
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true,
+    "@parcel/watcher@2.6.0": true,
+    "unrs-resolver@1.12.2": true
+  }
+}

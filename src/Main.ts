@@ -1,0 +1,200 @@
+import PromptSync from "prompt-sync";
+import Livro from "./livro.ts";
+import { Anuncio } from "./anuncios.ts";
+import fs from "node:fs";
+import { Conta } from "./conta.ts";
+import { Autor } from "./autor.ts";
+import criarConta from "./modules/criarConta.ts";
+
+const prompt = PromptSync({ sigint: true });
+
+const nome: string = "Edécio";
+
+function anunciar() {
+  const titulo: string = prompt("Título: ");
+  let autores: Autor[] = [];
+
+  let continuar = true;
+  while (continuar) {
+    const autorNome: string = prompt("Autor(a): ");
+    const autor: Autor = new Autor({ nome: autorNome });
+    autores.push(autor);
+    while (true) {
+      const resposta: string = prompt(
+        "Quer adicionar mais algum autor? (S/N) ",
+      ).toLocaleLowerCase();
+
+      if (resposta === "s") {
+        break;
+      }
+
+      if (resposta === "n") {
+        continuar = false;
+        break;
+      }
+
+      console.log("Resposta inválida. Digite S ou N.");
+    }
+  }
+  const descricao: string = prompt("Descrição: ");
+  const classIndicativa: number = +prompt("Classificação indicativa: ");
+  const editora: string = prompt("Editora: ");
+
+  const l: Livro = new Livro({
+    nome: titulo,
+    autores: autores,
+    descricao,
+    classIndicativa,
+    editora,
+  });
+  const anuncio: Anuncio = new Anuncio({
+    livro: l,
+    dono: userAcount,
+    preco: 89,
+    qualidade: "Excelente",
+  });
+}
+
+function listar() {
+  console.log(
+    "Pos.|                Livros            |            Autores           | Preço | Qualidade | Status |",
+  );
+
+  let contador = 0;
+
+  const anuncios = Anuncio.listarAnuncios();
+  for (let i = 0; i < anuncios.length; i++) {
+    contador++;
+
+    let stringAutores: string = "";
+    for (let index = 0; index < anuncios[i]!.livro.autores.length; index++) {
+      if (index == 0) {
+        stringAutores += `${anuncios[i]?.livro.autores[index]?.nome}`;
+      } else {
+        stringAutores += `, ${anuncios[i]?.livro.autores[index]?.nome}`;
+      }
+    }
+
+    let valor = `R$ ${anuncios[i]?.preco}`;
+    let status;
+
+    if (anuncios[i]?.ativo == true) {
+      status = "Ativo";
+    } else {
+      status = "Inativo";
+    }
+
+    console.log(
+      `${String(contador).padEnd(4)}|${anuncios[i]?.livro.nome.padEnd(34)}|${stringAutores.padEnd(30)}|${valor.padStart(7)}|${anuncios[i]?.qualidade.padStart(11)}|${status.padStart(8)}|`,
+    );
+  }
+
+  /* anuncios.map((anuncio) => console.log(`${JSON.stringify(anuncio, null, 2)} \n ---`)) */
+  prompt("Digite algo para sair: ");
+}
+
+function desativa() {
+  const anuncios: Anuncio[] = Anuncio.listarAnuncios();
+  let desativar = true;
+
+  while (desativar) {
+    anuncios.map((anuncio, indice) => {
+      console.log(`${indice} - ${JSON.stringify(anuncio.livro.nome)}`);
+    });
+    console.log(`${anuncios.length} - Voltar`);
+
+    while (true) {
+      const resposta: string = prompt("Escolha uma Opção: ");
+      console.clear();
+      if (resposta == null || resposta == "") {
+        console.log("Escolha um Anúncio para desativar ou Retorne ao Menu");
+        break;
+      }
+      const respostaNumero: number = Number(resposta);
+      if (Number.isNaN(respostaNumero) || respostaNumero > anuncios.length) {
+        console.log("Resposta Inválida");
+        break;
+      } else if (respostaNumero < anuncios.length) {
+        anuncios[respostaNumero]?.desativaAnuncio();
+        console.log(
+          `O anúncio de ${anuncios[respostaNumero]?.livro.nome} foi desativado`,
+        );
+        desativar = false;
+        prompt("Digite algo para sair: ");
+        break;
+      } else {
+        desativar = false;
+        break;
+      }
+    }
+  }
+}
+
+let userAcount: Conta = criarConta()!;
+
+console.log("1 - Comprador");
+console.log("2 - Vendedor");
+let MenuChoice: number = +prompt("");
+
+while (true) {
+  if (MenuChoice == 1) {
+    console.clear();
+    console.log("Vendedor");
+    console.log("Opção 0: Listar catálogo");
+    console.log("Opção 1: Pesquisar livro");
+    console.log("Opção 2: Pesquisar autor");
+    console.log("Opção 3: Adicionar ao carrinho");
+    console.log("Opção 4: Visualizar carrinho");
+    console.log("Opção 5: Finalizar Compra");
+    console.log("Opção 6: Voltar");
+    console.log("Opção 9: Sair do programa");
+
+    const resposta: number = +prompt("Sua escolha: ");
+    if (resposta == 6) {
+      console.clear();
+
+      console.log("1 - Comprador");
+      console.log("2 - Vendedor");
+      MenuChoice = +prompt("");
+    }
+    if (resposta == 9) {
+      break;
+    }
+  }
+
+  if (MenuChoice == 2) {
+    console.clear();
+    console.log("Vendedor");
+    console.log("Escolha uma opção");
+    console.log("Opção 0: Meus anúncios");
+    console.log("Opção 1: Anunciar livros");
+    console.log("Opção 2: Atualizar anúncios");
+    console.log("Opção 3: Desativar anúncio");
+    console.log("Opção 4: Pedidos");
+    console.log("Opção 5: Mensagens");
+    console.log("Opção 6: Meu perfil");
+    console.log("Opção 7: Voltar");
+    console.log("Opção 8: Sair do programa");
+
+    const resposta: number = +prompt("Sua escolha: ");
+    if (resposta == 0) {
+      listar();
+    }
+    if (resposta == 1) {
+      anunciar();
+    }
+    if (resposta == 3) {
+      desativa();
+    }
+    if (resposta == 7) {
+      console.clear();
+
+      console.log("1 - Comprador");
+      console.log("2 - Vendedor");
+      MenuChoice = +prompt("");
+    }
+    if (resposta == 8) {
+      break;
+    }
+  }
+}
