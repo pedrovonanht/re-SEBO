@@ -1,4 +1,4 @@
-import { Produto } from "./produto.ts"
+import Produto  from "./produto.ts"
 
 export class Jogo extends Produto {
     private _minJogadores: number
@@ -15,13 +15,13 @@ export class Jogo extends Produto {
         maxJogadores: number,
         tipo: string
     ) {
-        super(nome, descricao, marca, dataLancamento, classIndicativa)
+        super({nome, descricao, marca, dataLancamento, classIndicativa})
         this._minJogadores = minJogadores
         this._maxJogadores = maxJogadores
         this._tipo = tipo
     }
 
-    public get minJogadores() {
+    public get minJogadores():number {
         return this.minJogadores
     }
 

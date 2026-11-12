@@ -89,4 +89,8 @@ export class Anuncio {
     public desativaAnuncio():void{
         this._ativo = false;
     }
+
+    public ativarAnuncio():void {
+        this._ativo = true
+    }
 }

@@ -8,17 +8,17 @@ export class Disco extends Produto {
     private _tipo: string; 
 
     constructor(
-    _nome: string,
-    _descricao: string,
-    _marca: string,
-    _dataLancamento: Date,
-    _classIndicativa: number,
-    _autores: Autor[],
-    _duracao: number,
-    _genero: string,
-    _tipo: string
+    nome: string,
+    descricao: string,
+    marca: string,
+    dataLancamento: Date,
+    classIndicativa: number,
+    autores: Autor[],
+    duracao: number,
+    genero: string,
+    tipo: string
 ) {
-    super(_nome, _descricao, _marca, _dataLancamento, _classIndicativa)
+    super({nome, descricao, marca, dataLancamento, classIndicativa})
     this._autores = autores
     this._duracao = duracao
     this._genero = genero
@@ -36,7 +36,7 @@ export class Disco extends Produto {
         return this._genero
     }
 
-    public get _tipo() {
+    public get tipo() {
         return this._tipo
     }
 }

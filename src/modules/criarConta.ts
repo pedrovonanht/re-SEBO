@@ -1,6 +1,6 @@
 import PromptSync from "prompt-sync";
 import fs from "node:fs";
-import { Conta } from "../conta.ts";
+import { Conta } from "../classes/conta.ts";
 
 const prompt = PromptSync({ sigint: true });
 

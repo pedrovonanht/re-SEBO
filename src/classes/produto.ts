@@ -1,10 +1,10 @@
-export default class Produto {
+export default abstract class Produto {
   protected _nome: string;
   protected _descricao: string;
   protected _marca: string;
   protected _dataLancamento: Date;
   protected _id: string;
-  private _classIndicativa: number;
+  protected _classIndicativa: number;
 
   constructor({
     nome,

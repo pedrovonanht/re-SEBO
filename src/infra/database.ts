@@ -1,4 +1,4 @@
-import Database from "better-sqlite3";
+/* import Database from "better-sqlite3";
 
 const db: Database.Database = new Database(`${process.cwd()}/src/infra/system.db`);
 db.pragma("foreign_keys = ON");
@@ -73,7 +73,7 @@ db.exec(`
 
     CREATE TABLE IF NOT EXISTS Venda (
         idVenda INTEGER PRIMARY KEY AUTOINCREMENT,
-        Anuncio_idAnuncio INTEGER NOT NULL,
+        Anuncio_id Anuncio INTEGER NOT NULL,
         Comprador INTEGER NOT NULL,
 
         FOREIGN KEY (Anuncio_idAnuncio)
@@ -84,4 +84,4 @@ db.exec(`
     );
 `);
 
-export default db;
+export default db; */

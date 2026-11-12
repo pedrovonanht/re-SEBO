@@ -1,27 +1,29 @@
 import { Autor } from "./autor.ts";
 import Produto from "./produto.ts";
 
+export interface livroObject {
+  titulo: string;
+  autores: Autor[];
+  descricao: string;
+  editora: string;
+  classIndicativa: number;
+  dataLancamento?: Date;
+}
+
 export default class Livro extends Produto {
   //atributos
   private _autores: Autor[];
 
   constructor({
-    nome,
+    titulo,
     autores,
     descricao,
     editora,
     classIndicativa,
     dataLancamento,
-  }: {
-    nome: string;
-    autores: Autor[];
-    descricao: string;
-    editora: string;
-    classIndicativa: number;
-    dataLancamento?: Date;
-  }) {
+  }: livroObject) {
     super({
-      nome,
+      nome:titulo,
       descricao,
       marca: editora,
       classIndicativa,
@@ -30,7 +32,7 @@ export default class Livro extends Produto {
     this._autores = autores;
   }
 
-  public get nome() {
+  public get titulo() {
     return this._nome;
   }
 
