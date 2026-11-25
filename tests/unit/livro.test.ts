@@ -1,6 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
-import Livro from "../../src/livro.ts";
-import { Autor } from "../../src/autor.ts";
+import Livro from "../../src/classes/livro.ts";
+import { Autor } from "../../src/classes/autor.ts";
 
 describe("Quando manipular um Livro", () => {
     test("Mudando nome diretamente", () => {

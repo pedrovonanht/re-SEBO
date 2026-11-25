@@ -1,8 +1,8 @@
 import PromptSync from "prompt-sync";
-import { Autor } from "../autor.ts";
-import { Anuncio } from "../anuncios.ts";
-import Livro from "../livro.ts";
-import type { Conta } from "../conta.ts";
+import { Autor } from "../classes/autor.ts";
+import { Anuncio } from "../classes/anuncios.ts";
+import Livro from "../classes/livro.ts";
+import type { Conta } from "../classes/conta.ts";
 
 const prompt = PromptSync({ sigint: true });
 

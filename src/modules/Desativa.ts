@@ -1,4 +1,4 @@
-import { Anuncio } from "../anuncios.ts";
+import { Anuncio } from "../classes/anuncios.ts";
 import PromptSync from "prompt-sync";
 
 const prompt = PromptSync({ sigint: true });

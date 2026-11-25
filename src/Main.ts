@@ -1,9 +1,9 @@
 import PromptSync from "prompt-sync";
-import Livro from "./livro.ts";
-import { Anuncio } from "./anuncios.ts";
+import Livro from "./classes/livro.ts";
+import { Anuncio } from "./classes/anuncios.ts";
 import fs from "node:fs";
-import { Conta } from "./conta.ts";
-import { Autor } from "./autor.ts";
+import { Conta } from "./classes/conta.ts";
+import { Autor } from "./classes/autor.ts";
 import criarConta from "./modules/criarConta.ts";
 import anunciar from "./modules/Anunciar.ts";
 import listar from "./modules/Listar.ts";

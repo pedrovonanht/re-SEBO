@@ -1,8 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
-import { Anuncio } from '../../src/anuncios.ts';
-import { Conta } from '../../src/conta.ts';
-import Livro from '../../src/livro.ts';
-import { Autor } from '../../src/autor.ts';
+import { Anuncio } from '../../src/classes/anuncios.ts';
+import { Conta } from '../../src/classes/conta.ts';
+import Livro from '../../src/classes/livro.ts';
+import { Autor } from '../../src/classes/autor.ts';
  import {faker} from '@faker-js/faker'
 
 function criarAnuncio({preco}:{preco?:number}) :Anuncio{
