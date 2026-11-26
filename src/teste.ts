@@ -9,7 +9,6 @@ await Conta.inicializarNextId();
 await Livro.inicializarNextId();
 await Anuncio.inicializarNextId();
 
-// vendedor e comprador
 const vendedor: Conta = new Conta({
     nome: "Pedro Henrique",
     cpf: "00011122233",
@@ -22,7 +21,6 @@ const comprador: Conta = new Conta({
     telefone: "53988887777"
 });
 
-// livro e anúncio do vendedor
 const autor: Autor = new Autor({
     nome: "Machado de Assis"
 });

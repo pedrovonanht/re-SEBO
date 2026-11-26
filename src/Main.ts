@@ -20,7 +20,6 @@ const prompt = PromptSync({ sigint: true });
 
 let userAcount: Conta = (await login())!;
 
-// sincroniza os ids de livros e anúncios com a API antes de criar novos
 await Livro.inicializarNextId();
 await Anuncio.inicializarNextId();
 await CarregadorApi.carregarAnuncios();
@@ -66,7 +65,7 @@ while (true) {
       }
       if (resposta == 4) {
         console.clear();
-        MenuChoice = null; // volta a perguntar comprador/vendedor no topo do loop
+        MenuChoice = null;
       }
       if (resposta == 5) {
         break;
@@ -103,7 +102,7 @@ while (true) {
       }
       if (resposta == 5) {
         console.clear();
-        MenuChoice = null; // volta a perguntar comprador/vendedor no topo do loop
+        MenuChoice = null;
       }
       if (resposta == 6) {
         break;
@@ -114,7 +113,7 @@ while (true) {
       console.log(e.message);
       prompt("Digite algo para continuar: ");
     } else {
-      throw e; // erro inesperado não é engolido
+      throw e;
     }
   }
 }

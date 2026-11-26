@@ -15,7 +15,6 @@ export default class Livro {
         autores: Autor[],
         descricao: string
     }) {
-        // com id, o livro já existe na API: reaproveita o id e não faz POST
         const jaExiste = id !== undefined;
 
         this._id = jaExiste ? id : Livro.nextId++;
