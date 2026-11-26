@@ -50,9 +50,9 @@ export default function anunciar(userAcount: Conta) {
     autores,
   }: { titulo: string; descricao: string; autores: Autor[] } = perguntar();
   
-  const l: Livro = new Livro({ nome: titulo, autores: autores, descricao });
+  const livro: Livro = new Livro({ nome: titulo, autores: autores, descricao });
   const anuncio: Anuncio = new Anuncio({
-    livro: l,
+    livro: livro,
     dono: userAcount,
     preco: 89,
     qualidade: "Excelente",
