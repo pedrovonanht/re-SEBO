@@ -1,12 +1,12 @@
 
 import { Carrinho } from "./carrinho.ts"
 import { Conta } from "./conta.ts"
-import Livro from "./livro.ts"
+import type { Item } from "./item.ts"
 
 interface anuncioObj {
     id?: number,
     dono: Conta,
-    livro: Livro,
+    item: Item,
     preco: number,
     qualidade: string,
     ativo?: boolean,
@@ -20,7 +20,7 @@ interface AnuncioPersistido {
 
 export class Anuncio {
     private _dono: Conta
-    private _livro: Livro
+    private _item: Item
     private _preco: number
     private _desconto: number
     private _qualidade: string
@@ -46,14 +46,14 @@ export class Anuncio {
             : 1;
     }
 
-    constructor({ id, dono, livro, preco, qualidade, ativo, desconto, vendido }: anuncioObj) {
+    constructor({ id, dono, item, preco, qualidade, ativo, desconto, vendido }: anuncioObj) {
         const jaExiste = id !== undefined;
 
         this._id = jaExiste ? id : Anuncio.nextId++;
 
         this.validaPreco(preco);
         this._dono = dono;
-        this._livro = livro;
+        this._item = item;
         this._preco = preco;
         this._qualidade = qualidade;
         this._ativo = ativo ?? true;
@@ -74,9 +74,9 @@ export class Anuncio {
             },
             body: JSON.stringify({
                 id: this._id,
-                nome: this.livro.nome,
+                nome: this._item.nome,
                 dono: this._dono.id,
-                livro: this._livro.id,
+                item: this._item.id,
                 preco: this._preco,
                 qualidade: this._qualidade,
                 ativo: this._ativo,
@@ -88,6 +88,10 @@ export class Anuncio {
 
     public get id() {
         return this._id;
+    }
+
+    public aguardarPersistencia(): Promise<Response> {
+        return this._persistido;
     }
 
     public get dono() {
@@ -129,8 +133,8 @@ export class Anuncio {
         });
     }
 
-    public get livro() {
-        return this._livro;
+    public get item() {
+        return this._item;
     }
 
     public get qualidade() {

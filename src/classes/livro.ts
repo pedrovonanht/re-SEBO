@@ -1,72 +1,29 @@
-
 import { Autor } from "./autor.ts";
+import { Item, type ItemDados } from "./item.ts";
 
-export default class Livro {
-    private static nextId: number = 1;
-
-    private _id: number;
-    private _nome: string;
-    private _descricao: string;
+export default class Livro extends Item {
     private _autores: Autor[];
 
-    constructor({ id, nome, autores, descricao }: {
-        id?: number,
-        nome: string,
-        autores: Autor[],
-        descricao: string
-    }) {
-        const jaExiste = id !== undefined;
+    constructor(dados: ItemDados & { autores: Autor[] }) {
+        super(dados);
+        this._autores = dados.autores;
 
-        this._id = jaExiste ? id : Livro.nextId++;
-
-        this._nome = nome;
-        this._descricao = descricao || "";
-        this._autores = autores;
-
-        if (jaExiste) return;
-
-        fetch("http://localhost:3000/livro", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: this._id,
-                nome: this._nome,
-                descricao: this._descricao,
-                autores: this._autores,
-            }),
-        });
-    }
-
-    public static async inicializarNextId(): Promise<void> {
-        const response = await fetch("http://localhost:3000/livro");
-
-        if (!response.ok) {
-            throw new Error("Erro ao buscar livros existentes");
+        // só grava na API se for um livro novo (sem id)
+        if (dados.id === undefined) {
+            this.persistir({ autores: this._autores });
         }
-
-        const livros: { id: number }[] = await response.json();
-
-        Livro.nextId = livros.length > 0
-            ? Math.max(...livros.map(livro => livro.id)) + 1
-            : 1;
     }
 
-    public get id() {
-        return this._id;
-    }
-
-    public get nome() {
-        return this._nome;
-    }
-
-    public get descricao() {
-        return this._descricao;
+    public get tipo() {
+        return "Livro";
     }
 
     public get autores() {
         return this._autores;
+    }
+
+    public creditos(): string {
+        return this._autores.map(autor => autor.nome).join(", ");
     }
 
     adicionaAutor(autor: Autor): void {

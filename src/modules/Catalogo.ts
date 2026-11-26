@@ -3,7 +3,7 @@ import { Anuncio } from "../classes/anuncios.ts";
 
 const prompt = PromptSync({ sigint: true });
 
-const CABECALHO = `Pos.|                Livros            |            Autores           |  Preço  | Qualidade |`;
+const CABECALHO = `Pos.|  Tipo  |              Título              |           Créditos           |  Preço  | Qualidade |`;
 
 export function anunciosDisponiveis(): Anuncio[] {
   return Anuncio.listarAnuncios().filter(
@@ -15,11 +15,11 @@ export function imprimirAnuncios(anuncios: Anuncio[]): void {
   console.log(CABECALHO);
 
   anuncios.forEach((anuncio, indice) => {
-    const autores = anuncio.livro.autores.map((autor) => autor.nome).join(", ");
+    const { item } = anuncio;
     const valor = `R$ ${anuncio.precoVenda().toFixed(2)}`;
 
     console.log(
-      `${String(indice + 1).padEnd(4)}|${anuncio.livro.nome.padEnd(34)}|${autores.padEnd(30)}|${valor.padStart(9)}|${anuncio.qualidade.padStart(11)}|`,
+      `${String(indice + 1).padEnd(4)}|${item.tipo.padEnd(8)}|${item.nome.padEnd(34)}|${item.creditos().padEnd(30)}|${valor.padStart(9)}|${anuncio.qualidade.padStart(11)}|`,
     );
   });
 }

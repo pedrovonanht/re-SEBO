@@ -2,12 +2,14 @@ import { Anuncio } from "./anuncios.ts";
 import { Autor } from "./autor.ts";
 import { Conta } from "./conta.ts";
 import Livro from "./livro.ts";
+import Revista from "./revista.ts";
+import type { Item } from "./item.ts";
 
 interface AnuncioPersistido {
     id: number;
     nome: string;
     dono: number | string;
-    livro: number | string;
+    item: number | string;
     preco: number;
     qualidade: string;
     ativo: boolean;
@@ -15,12 +17,25 @@ interface AnuncioPersistido {
     vendido: boolean;
 }
 
-interface LivroPersistido {
+interface ItemPersistidoBase {
     id: number | string;
     nome: string;
     descricao: string;
+}
+
+interface LivroPersistido extends ItemPersistidoBase {
+    tipo: "Livro";
     autores: { _nome: string, _nascimento: string }[];
 }
+
+interface RevistaPersistida extends ItemPersistidoBase {
+    tipo: "Revista";
+    editora: string;
+    edicao: number;
+}
+
+// o campo `tipo` diz qual classe recriar
+type ItemPersistido = LivroPersistido | RevistaPersistida;
 
 interface ContaPersistida {
     id: number | string;
@@ -35,27 +50,27 @@ export class CarregadorApi {
     private static readonly URL: string = "http://localhost:3000";
 
     public static async carregarAnuncios(): Promise<void> {
-        const [anuncios, livros, contas] = await Promise.all([
+        const [anuncios, itens, contas] = await Promise.all([
             CarregadorApi.buscarLista<AnuncioPersistido>("anuncios"),
-            CarregadorApi.buscarLista<LivroPersistido>("livro"),
+            CarregadorApi.buscarLista<ItemPersistido>("itens"),
             CarregadorApi.buscarLista<ContaPersistida>("contas"),
         ]);
 
         const contasPorId = CarregadorApi.mapearContas(contas);
-        const livrosPorId = CarregadorApi.mapearLivros(livros);
+        const itensPorId = CarregadorApi.mapearItens(itens);
 
         Anuncio.limparListaAnuncios();
 
         for (const anuncio of anuncios) {
             const dono = contasPorId.get(Number(anuncio.dono));
-            const livro = livrosPorId.get(Number(anuncio.livro));
+            const item = itensPorId.get(Number(anuncio.item));
 
-            if (!dono || !livro) continue;
+            if (!dono || !item) continue;
 
             new Anuncio({
                 id: anuncio.id,
                 dono,
-                livro,
+                item,
                 preco: anuncio.preco,
                 qualidade: anuncio.qualidade,
                 ativo: anuncio.ativo,
@@ -79,19 +94,30 @@ export class CarregadorApi {
         return new Map(contas.map(conta => [Number(conta.id), new Conta(conta)]));
     }
 
-    private static mapearLivros(livros: LivroPersistido[]): Map<number, Livro> {
-        return new Map(livros.map(livro => [Number(livro.id), CarregadorApi.recriarLivro(livro)]));
+    private static mapearItens(itens: ItemPersistido[]): Map<number, Item> {
+        return new Map(itens.map(item => [Number(item.id), CarregadorApi.recriarItem(item)]));
     }
 
-    private static recriarLivro(livro: LivroPersistido): Livro {
-        return new Livro({
-            id: Number(livro.id),
-            nome: livro.nome,
-            descricao: livro.descricao,
-            autores: livro.autores.map(autor => new Autor({
-                nome: autor._nome,
-                nascimento: new Date(autor._nascimento),
-            })),
-        });
+    private static recriarItem(item: ItemPersistido): Item {
+        switch (item.tipo) {
+            case "Livro":
+                return new Livro({
+                    id: Number(item.id),
+                    nome: item.nome,
+                    descricao: item.descricao,
+                    autores: item.autores.map(autor => new Autor({
+                        nome: autor._nome,
+                        nascimento: new Date(autor._nascimento),
+                    })),
+                });
+            case "Revista":
+                return new Revista({
+                    id: Number(item.id),
+                    nome: item.nome,
+                    descricao: item.descricao,
+                    editora: item.editora,
+                    edicao: item.edicao,
+                });
+        }
     }
 }

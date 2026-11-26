@@ -1,6 +1,6 @@
 import "./modules/fetchComRetry.ts";
 import PromptSync from "prompt-sync";
-import Livro from "./classes/livro.ts";
+import { Item } from "./classes/item.ts";
 import { Anuncio } from "./classes/anuncios.ts";
 import { Conta } from "./classes/conta.ts";
 import anunciar from "./modules/Anunciar.ts";
@@ -20,7 +20,7 @@ const prompt = PromptSync({ sigint: true });
 
 let userAcount: Conta = (await login())!;
 
-await Livro.inicializarNextId();
+await Item.inicializarNextId();
 await Anuncio.inicializarNextId();
 await CarregadorApi.carregarAnuncios();
 
@@ -89,7 +89,7 @@ while (true) {
         listar(userAcount);
       }
       if (resposta == 1) {
-        anunciar(userAcount);
+        await anunciar(userAcount);
       }
       if (resposta == 2) {
         desativa();

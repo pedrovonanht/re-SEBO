@@ -17,7 +17,7 @@ function criarAnuncio(nomeLivro: string): Anuncio {
     autores: [autor],
     descricao: "livro bom",
   });
-  return new Anuncio({ dono, livro, preco: 100, qualidade: "boa" });
+  return new Anuncio({ dono, item: livro, preco: 100, qualidade: "boa" });
 }
 
 describe("quando listar o catalogo", () => {

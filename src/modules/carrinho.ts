@@ -30,10 +30,10 @@ export function adicionarAoCarrinho(carrinho: Carrinho): void {
   if (!anuncio) {
     console.log("Opção inválida.");
   } else if (carrinho.mostrarCarrinho().includes(anuncio)) {
-    console.log(`"${anuncio.livro.nome}" já está no carrinho.`);
+    console.log(`"${anuncio.item.nome}" já está no carrinho.`);
   } else {
     carrinho.adicionarAnuncio(anuncio);
-    console.log(`"${anuncio.livro.nome}" adicionado ao carrinho.`);
+    console.log(`"${anuncio.item.nome}" adicionado ao carrinho.`);
   }
 
   prompt("Digite algo para sair: ");
@@ -45,7 +45,7 @@ console.log("=".repeat(30))
 carrinho.mostrarCarrinho().forEach((anuncio, indice) => {
   const preco = anuncio.precoVenda();
   total += preco;
-  console.log(`${indice + 1} - ${anuncio.livro.nome} - R$ ${preco.toFixed(2)}`);
+  console.log(`${indice + 1} - ${anuncio.item.resumo()} - R$ ${preco.toFixed(2)}`);
 });
 
 console.log(`Total: R$ ${total.toFixed(2)}`);

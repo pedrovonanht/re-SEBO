@@ -16,7 +16,7 @@ function anunciosDisponiveis(userAcount: Conta): Anuncio[] {
 function listarOpcoes(anuncios: Anuncio[]) {
   anuncios.forEach((anuncio, indice) => {
     console.log(
-      `${indice} - ${anuncio.livro.nome} | R$ ${anuncio.preco.toFixed(2)} | desconto atual: ${anuncio.desconto}% | preço de venda: R$ ${anuncio.precoVenda().toFixed(2)}`,
+      `${indice} - ${anuncio.item.resumo()} | R$ ${anuncio.preco.toFixed(2)} | desconto atual: ${anuncio.desconto}% | preço de venda: R$ ${anuncio.precoVenda().toFixed(2)}`,
     );
   });
   console.log(`${anuncios.length} - Voltar`);

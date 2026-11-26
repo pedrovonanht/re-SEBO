@@ -19,7 +19,7 @@ function criarAnuncio({ preco }: { preco?: number }): Anuncio {
   });
   const anuncio: Anuncio = new Anuncio({
     dono: conta,
-    livro,
+    item: livro,
     preco: preco || faker.number.int(),
     qualidade: "boa",
   });
@@ -41,7 +41,7 @@ describe("Quando manipular anuncio", () => {
     });
     const anuncio: Anuncio = new Anuncio({
       dono: conta,
-      livro,
+      item: livro,
       preco: 100,
       qualidade: "boa",
     });
@@ -89,7 +89,7 @@ describe("Quando manipular anuncio", () => {
     });
 
     expect(
-      () => new Anuncio({ dono: conta, livro, preco: -10, qualidade: "boa" }),
+      () => new Anuncio({ dono: conta, item: livro, preco: -10, qualidade: "boa" }),
     ).toThrow();
   });
 });

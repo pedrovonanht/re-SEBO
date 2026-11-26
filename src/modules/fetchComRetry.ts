@@ -7,7 +7,8 @@ globalThis.fetch = (async (
   try {
     return await fetchOriginal(input, init);
   } catch (erro) {
-    if ((erro as { cause?: { code?: string } })?.cause?.code === "UND_ERR_SOCKET") {
+    const codigo = (erro as { cause?: { code?: string } })?.cause?.code;
+    if (codigo === "UND_ERR_SOCKET" || codigo === "ECONNRESET") {
       return fetchOriginal(input, init);
     }
     throw erro;

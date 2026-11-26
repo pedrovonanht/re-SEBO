@@ -7,14 +7,14 @@ const prompt = PromptSync({ sigint: true });
 
 function listarOpcoes(anuncios: Anuncio[]) {
   anuncios.forEach((anuncio, indice) => {
-    console.log(`${indice} - ${anuncio.livro.nome}`);
+    console.log(`${indice} - ${anuncio.item.resumo()}`);
   });
   console.log(`${anuncios.length} - Voltar`);
 }
 
 function desativarAnuncio(anuncio: Anuncio) {
   anuncio.desativaAnuncio();
-  console.log(`O anúncio de ${anuncio.livro.nome} foi desativado`);
+  console.log(`O anúncio de ${anuncio.item.nome} foi desativado`);
   prompt("Digite algo para sair: ");
 }
 
