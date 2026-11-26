@@ -7,7 +7,14 @@ export class Autor {
         nascimento?: Date
     }) {
         this._nascimento = nascimento || new Date(Date.now());
+        this.validaNome(nome);
         this._nome = nome;
+    }
+
+    private validaNome(nome: string): void {
+        if (nome.length < 3 || nome.length > 80) {
+            throw new Error('O nome deve ter entre 3 e 80 caracteres');
+        }
     }
 
     public get nome(): string {
@@ -15,9 +22,8 @@ export class Autor {
     }
 
     public set nome(nome: string) {
-        if (nome.length >= 3 && nome.length <= 80) {
-            this._nome = nome;
-        } else throw new Error('O nome deve ter entre 3 e 80 caracteres');
+        this.validaNome(nome);
+        this._nome = nome;
     }
 
     public get nascimento(): Date {
