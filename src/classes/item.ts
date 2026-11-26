@@ -51,8 +51,14 @@ export abstract class Item {
         return `[${this.tipo}] ${this._nome} — ${this.creditos()}`;
     }
 
+    protected _persistido: Promise<unknown> = Promise.resolve();
+
+    public aguardarPersistencia(): Promise<unknown> {
+        return this._persistido;
+    }
+
     protected persistir(camposDaSubclasse: object): void {
-        fetch("http://localhost:3000/itens", {
+        this._persistido = fetch("http://localhost:3000/itens", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

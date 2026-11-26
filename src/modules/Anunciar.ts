@@ -73,7 +73,7 @@ function criarRevista(nome: string, descricao: string): Revista {
   return new Revista({ nome, descricao, editora, edicao });
 }
 
-export default function anunciar(userAcount: Conta) {
+export default async function anunciar(userAcount: Conta): Promise<void> {
   const tipo = perguntarTipo();
   const titulo: string = prompt("Título: ") ?? "";
   const descricao: string = prompt("Descrição: ") ?? "";
@@ -89,4 +89,7 @@ export default function anunciar(userAcount: Conta) {
     preco: 89,
     qualidade: "Excelente",
   });
+
+  await item.aguardarPersistencia();
+  await anuncio.aguardarPersistencia();
 }

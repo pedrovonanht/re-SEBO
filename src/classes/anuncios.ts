@@ -90,6 +90,10 @@ export class Anuncio {
         return this._id;
     }
 
+    public aguardarPersistencia(): Promise<Response> {
+        return this._persistido;
+    }
+
     public get dono() {
         return this._dono;
     }

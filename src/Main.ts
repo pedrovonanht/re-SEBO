@@ -81,7 +81,7 @@ while (true) {
       listar(userAcount);
     }
     if (resposta == 1) {
-      anunciar(userAcount);
+      await anunciar(userAcount);
     }
     if (resposta == 2) {
       desativa();
