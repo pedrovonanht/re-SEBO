@@ -5,7 +5,6 @@ const prompt = PromptSync({ sigint: true });
 
 const CABECALHO = `Pos.|  Tipo  |              Título              |           Créditos           |  Preço  | Qualidade |`;
 
-// anúncios que ainda podem ser comprados
 export function anunciosDisponiveis(): Anuncio[] {
   return Anuncio.listarAnuncios().filter(
     (anuncio) => anuncio.ativo && !anuncio.vendido,

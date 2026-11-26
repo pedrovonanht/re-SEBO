@@ -1,5 +1,7 @@
 import { Anuncio } from "../classes/anuncios.ts";
 import PromptSync from "prompt-sync";
+import { EntradaInvalidaError } from "../classes/entradaInvalidaError.ts";
+import lerOpcao from "./lerOpcao.ts";
 
 const prompt = PromptSync({ sigint: true });
 
@@ -16,34 +18,24 @@ function desativarAnuncio(anuncio: Anuncio) {
   prompt("Digite algo para sair: ");
 }
 
-function tratarResposta(resposta: string, anuncios: Anuncio[]): boolean {
-  if (resposta === "") {
-    console.log("Escolha um Anúncio para desativar ou Retorne ao Menu");
-    return true;
-  }
-
-  const numero = Number(resposta);
-  if (!Number.isInteger(numero) || numero < 0 || numero > anuncios.length) {
-    console.log("Resposta Inválida");
-    return true;
-  }
-
-  if (numero === anuncios.length) {
-    return false;
-  }
-
-  desativarAnuncio(anuncios[numero]!);
-  return false;
-}
-
 export default function desativa() {
   const anuncios: Anuncio[] = Anuncio.listarAnuncios();
-  let continuar = true;
-
-  while (continuar) {
+  while (true) {
     listarOpcoes(anuncios);
-    const resposta: string = prompt("Escolha uma Opção: ") ?? "";
+    let numero: number;
+    try {
+      numero = lerOpcao("Escolha uma Opção: ", anuncios.length);
+    } catch (e) {
+      if (!(e instanceof EntradaInvalidaError)) throw e;
+      console.clear();
+      console.log(e.message);
+      continue;
+    }
     console.clear();
-    continuar = tratarResposta(resposta, anuncios);
+
+    if (numero < anuncios.length) {
+      desativarAnuncio(anuncios[numero]!);
+    }
+    return;
   }
 }

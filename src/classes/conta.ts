@@ -33,7 +33,6 @@ export class Conta {
         telefone: string | number,
         endereco?: string
     }) {
-        // com id, a conta já existe na API: reaproveita o id e não faz POST
         const jaExiste = id !== undefined;
 
         this._id = jaExiste ? Number(id) : Conta.nextId++;

@@ -21,7 +21,6 @@ function criarAnuncio(nomeLivro: string): Anuncio {
 }
 
 describe("quando listar o catalogo", () => {
-  // a API é simulada: o teste não depende do json-server nem grava nada nele
   beforeEach(() => {
     globalThis.fetch = jest.fn(async () => ({
       ok: true,

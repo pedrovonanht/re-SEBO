@@ -39,7 +39,6 @@ export function adicionarAoCarrinho(carrinho: Carrinho): void {
   prompt("Digite algo para sair: ");
 }
 
-// imprime os itens e devolve o total
 function imprimirCarrinho(carrinho: Carrinho): number {
   let total = 0;
 console.log("=".repeat(30))
@@ -64,7 +63,6 @@ export function visualizarCarrinho(carrinho: Carrinho): void {
   prompt("Digite algo para sair: ");
 }
 
-// devolve o carrinho a ser usado depois da compra: um novo se vendeu, o mesmo se não
 export async function finalizarCompra(
   cliente: Conta,
   carrinho: Carrinho,
