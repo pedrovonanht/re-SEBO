@@ -32,7 +32,7 @@ interface ContaPersistida {
 
 
 export class CarregadorApi {
-    private static readonly URL: string = "http://localhost:3010";
+    private static readonly URL: string = "http://localhost:3000";
 
     public static async carregarAnuncios(): Promise<void> {
         const [anuncios, livros, contas] = await Promise.all([

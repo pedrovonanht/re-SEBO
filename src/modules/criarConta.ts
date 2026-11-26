@@ -3,7 +3,7 @@ import { Conta } from "../classes/conta.ts";
 
 const prompt = PromptSync({ sigint: true });
 
-const API_CONTAS = "http://localhost:3010/contas/";
+const API_CONTAS = "http://localhost:3000/contas/";
 
 interface ContaPersistida {
   id: number | string;

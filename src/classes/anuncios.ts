@@ -33,7 +33,7 @@ export class Anuncio {
     private static nextId: number = 1;
 
     public static async inicializarNextId(): Promise<void> {
-        const response = await fetch("http://localhost:3010/anuncios/");
+        const response = await fetch("http://localhost:3000/anuncios/");
 
         if (!response.ok) {
             throw new Error("Erro ao buscar anúncios existentes");
@@ -67,7 +67,7 @@ export class Anuncio {
             return;
         }
 
-        this._persistido = fetch("http://localhost:3010/anuncios/", {
+        this._persistido = fetch("http://localhost:3000/anuncios/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -97,7 +97,7 @@ export class Anuncio {
     public async marcarComoVendido(): Promise<void> {
         await this._persistido;
 
-        const response = await fetch(`http://localhost:3010/anuncios/${this._id}`, {
+        const response = await fetch(`http://localhost:3000/anuncios/${this._id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -120,7 +120,7 @@ export class Anuncio {
         this.validaPreco(preco);
         this._preco = preco;
 
-        fetch("http://localhost:3010/anuncios/preco", {
+        fetch("http://localhost:3000/anuncios/preco", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -166,7 +166,7 @@ export class Anuncio {
     public set desconto(desconto: number) {
         this._desconto = desconto;
 
-        fetch("http://localhost:3010/anuncios/desconto", {
+        fetch("http://localhost:3000/anuncios/desconto", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -186,7 +186,7 @@ export class Anuncio {
     public desativaAnuncio(): void {
         this._ativo = false;
 
-        fetch("http://localhost:3010/anuncios/ativo", {
+        fetch("http://localhost:3000/anuncios/ativo", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
