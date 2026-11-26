@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "server": "json-server --watch api_fake/db.json"
   },
   "keywords": [],
   "author": "",

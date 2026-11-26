@@ -6,6 +6,7 @@ import { Conta } from "./classes/conta.ts";
 import anunciar from "./modules/Anunciar.ts";
 import listar from "./modules/Listar.ts";
 import desativa from "./modules/Desativa.ts";
+import aplicarDesconto from "./modules/Desconto.ts";
 import login from "./modules/criarConta.ts";
 import listarCatalogo from "./modules/Catalogo.ts";
 import mostrarPerfil from "./modules/Perfil.ts";
@@ -72,8 +73,9 @@ while (true) {
     console.log("Opção 1: Anunciar livros");
     console.log("Opção 2: Desativar anúncio");
     console.log("Opção 3: Meu perfil");
-    console.log("Opção 4: Voltar");
-    console.log("Opção 5: Sair do programa");
+    console.log("Opção 4: Aplicar desconto");
+    console.log("Opção 5: Voltar");
+    console.log("Opção 6: Sair do programa");
 
     const resposta: number = +prompt("Sua escolha: ");
     if (resposta == 0) {
@@ -89,13 +91,16 @@ while (true) {
       mostrarPerfil(userAcount);
     }
     if (resposta == 4) {
+      aplicarDesconto(userAcount);
+    }
+    if (resposta == 5) {
       console.clear();
 
       console.log("1 - Comprador")
       console.log("2 - Vendedor")
       MenuChoice = +prompt("");
     }
-    if (resposta == 5) {
+    if (resposta == 6) {
       break;
     }
   }

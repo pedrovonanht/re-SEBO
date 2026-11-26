@@ -53,6 +53,14 @@ describe("Quando manipular anuncio", () => {
     expect(anuncio.precoVenda()).toBe(90);
   });
 
+  test("Desconto fora de 0 a 100 deve lançar erro", () => {
+    const anuncio: Anuncio = criarAnuncio({});
+
+    expect(() => anuncio.aplicarDesconto({ porcentagemDesconto: -1 })).toThrow();
+    expect(() => anuncio.aplicarDesconto({ porcentagemDesconto: 101 })).toThrow();
+    expect(() => anuncio.aplicarDesconto({ porcentagemDesconto: NaN })).toThrow();
+  });
+
   test("Listando anuncios", () => {
     Anuncio.limparListaAnuncios();
     const anuncio1: Anuncio = criarAnuncio({});

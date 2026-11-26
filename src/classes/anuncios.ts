@@ -120,7 +120,7 @@ export class Anuncio {
         this.validaPreco(preco);
         this._preco = preco;
 
-        fetch("http://localhost:3000/anuncios/preco", {
+        fetch(`http://localhost:3000/anuncios/${this._id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -163,10 +163,17 @@ export class Anuncio {
         }
     }
 
+    private validaDesconto(desconto: number): void {
+        if (!Number.isFinite(desconto) || desconto < 0 || desconto > 100) {
+            throw new Error("Desconto inválido: deve estar entre 0 e 100");
+        }
+    }
+
     public set desconto(desconto: number) {
+        this.validaDesconto(desconto);
         this._desconto = desconto;
 
-        fetch("http://localhost:3000/anuncios/desconto", {
+        fetch(`http://localhost:3000/anuncios/${this._id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -186,7 +193,7 @@ export class Anuncio {
     public desativaAnuncio(): void {
         this._ativo = false;
 
-        fetch("http://localhost:3000/anuncios/ativo", {
+        fetch(`http://localhost:3000/anuncios/${this._id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
