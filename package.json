@@ -18,7 +18,8 @@
     "@types/jest": "^30.0.0",
     "@types/prompt-sync": "^4.2.3",
     "babel-jest": "^30.5.1",
-    "jest": "^30.5.1"
+    "jest": "^30.5.1",
+    "json-server": "0.17.4"
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
