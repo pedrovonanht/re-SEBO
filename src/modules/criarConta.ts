@@ -1,60 +1,63 @@
 import PromptSync from "prompt-sync";
-import fs from "node:fs";
 import { Conta } from "../classes/conta.ts";
 
 const prompt = PromptSync({ sigint: true });
 
-function login(userConfigs: Conta[]): Conta[] {
-  console.log("------Login-----");
-  const nome: string = prompt("Nome da conta: ");
-  const cpf: number = +prompt("CPF: ");
-  const telefone: number = +prompt("Telefone: ");
-  const userAcount: Conta = new Conta({ nome, cpf, telefone });
+const API_CONTAS = "http://localhost:3010/contas/";
 
-  // const text: string = nome + "\n" + cpf + "\n" + telefone + "\n";
-
-  userConfigs.push(userAcount);
-  fs.writeFileSync(
-    "./src/db.json",
-    JSON.stringify(userConfigs, null, 2),
-    "utf-8",
-  );
-  return userConfigs;
+interface ContaPersistida {
+  id: number | string;
+  nome: string;
+  cpf: string;
+  telefone: string;
+  endereco?: string;
 }
 
-export default function criarConta() {
-  const loadedConfigs: string = fs.readFileSync("./src/db.json", "utf-8");
-  let userConfigs: Conta[];
+async function buscarContas(): Promise<ContaPersistida[]> {
+  const response = await fetch(API_CONTAS);
 
-  if (loadedConfigs.length == 0) {
-    userConfigs = login([]);
-  } else if (loadedConfigs.length > 0) {
-    userConfigs = JSON.parse(loadedConfigs);
-    
-    
-    const resposta: string = prompt(
-      `Detectamos ${userConfigs.length} conta(s) salvas. Você quer seguir com alguma delas? (S/N) `,
-    ).toLocaleLowerCase();
-
-    if (resposta == "n") {
-      login(userConfigs);
-      return;
-    }
-
-    let index: number = 0;
-    for (let conta of userConfigs) {
-      index += 1;
-      console.log(`${index} - ${conta.nome}`);
-    }
-
-    const contaEscolhida = prompt("Qual conta você quer usar? ")!;
-
-    const indice: number = +contaEscolhida - 1;
-
-    if (!userConfigs[indice]) {
-      return;
-    }
-    return new Conta(userConfigs[indice]);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar contas existentes");
   }
+
+  return response.json();
 }
 
+async function criarConta(): Promise<Conta> {
+  console.log("-----Criar Conta-----");
+  const nome: string = prompt("Nome da conta: ");
+  const cpf: string = prompt("CPF: ");
+  const telefone: string = prompt("Telefone: ");
+
+  await Conta.inicializarNextId();
+  return new Conta({ nome, cpf, telefone });
+}
+
+export default async function login(): Promise<Conta | undefined> {
+  const contas: ContaPersistida[] = await buscarContas();
+
+  if (contas.length == 0) {
+    return criarConta();
+  }
+
+  const resposta: string = prompt(
+    `Detectamos ${contas.length} conta(s) salvas. Você quer seguir com alguma delas? (S/N) `,
+  ).toLocaleLowerCase();
+
+  if (resposta == "n") {
+    return criarConta();
+  }
+
+  contas.forEach((conta, index) => {
+    console.log(`${index + 1} - ${conta.nome}`);
+  });
+
+  const contaEscolhida: string = prompt("Qual conta você quer usar? ")!;
+  const conta: ContaPersistida | undefined = contas[+contaEscolhida - 1];
+
+  if (!conta) {
+    return;
+  }
+
+  return new Conta(conta);
+}
