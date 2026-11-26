@@ -13,7 +13,7 @@ export class Conta {
     private static nextId = 1;
 
     public static async inicializarNextId(): Promise<void> {
-        const response = await fetch("http://localhost:3010/contas/");
+        const response = await fetch("http://localhost:3000/contas/");
 
         if (!response.ok) {
             throw new Error("Erro ao buscar contas existentes");
@@ -44,7 +44,7 @@ export class Conta {
 
         if (jaExiste) return;
 
-        fetch("http://localhost:3010/contas/", {
+        fetch("http://localhost:3000/contas/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

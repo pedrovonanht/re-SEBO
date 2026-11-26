@@ -26,7 +26,7 @@ export default class Livro {
 
         if (jaExiste) return;
 
-        fetch("http://localhost:3010/livro", {
+        fetch("http://localhost:3000/livro", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -41,7 +41,7 @@ export default class Livro {
     }
 
     public static async inicializarNextId(): Promise<void> {
-        const response = await fetch("http://localhost:3010/livro");
+        const response = await fetch("http://localhost:3000/livro");
 
         if (!response.ok) {
             throw new Error("Erro ao buscar livros existentes");
