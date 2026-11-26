@@ -48,7 +48,7 @@ export default function listar(ContaAnunciante: Conta) {
   const anuncios = Anuncio.listarAnuncios();
 
   for (let indice = 0; indice < anuncios.length; indice++) {
-    const anuncio: Anuncio = anuncios[indice]
+    const anuncio: Anuncio = anuncios[indice]!
     if (ContaAnunciante.id == anuncio.dono.id) {
       const stringAutores = montarStringAutores(anuncios, indice);
       const status = montarStatus(anuncios, indice);
