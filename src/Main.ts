@@ -1,6 +1,6 @@
 import "./modules/fetchComRetry.ts";
 import PromptSync from "prompt-sync";
-import Livro from "./classes/livro.ts";
+import { Item } from "./classes/item.ts";
 import { Anuncio } from "./classes/anuncios.ts";
 import { Conta } from "./classes/conta.ts";
 import anunciar from "./modules/Anunciar.ts";
@@ -18,8 +18,7 @@ const prompt = PromptSync({ sigint: true });
 
 let userAcount: Conta = (await login())!;
 
-// sincroniza os ids de livros e anúncios com a API antes de criar novos
-await Livro.inicializarNextId();
+await Item.inicializarNextId();
 await Anuncio.inicializarNextId();
 await CarregadorApi.carregarAnuncios();
 

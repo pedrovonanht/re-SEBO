@@ -1,12 +1,13 @@
 import { Conta } from "./classes/conta.ts";
 import { Autor } from "./classes/autor.ts";
 import Livro from "./classes/livro.ts";
+import { Item } from "./classes/item.ts";
 import { Anuncio } from "./classes/anuncios.ts";
 import { Carrinho } from "./classes/carrinho.ts";
 import { Venda } from "./classes/Venda.ts";
 
 await Conta.inicializarNextId();
-await Livro.inicializarNextId();
+await Item.inicializarNextId();
 await Anuncio.inicializarNextId();
 
 // vendedor e comprador
@@ -35,7 +36,7 @@ const livro: Livro = new Livro({
 
 const anuncio: Anuncio = new Anuncio({
     dono: vendedor,
-    livro,
+    item: livro,
     preco: 49.90,
     qualidade: "boa"
 });
@@ -51,7 +52,7 @@ const venda: Venda = new Venda({
 
 console.log("Venda criada:", venda.codigo);
 console.log("Cliente:", venda.cliente.nome);
-console.log("Itens:", venda.carrinho.mostrarCarrinho().map(a => a.livro.nome));
+console.log("Itens:", venda.carrinho.mostrarCarrinho().map(a => a.item.nome));
 
 await venda.fazerVenda();
 console.log("Anúncio vendido:", anuncio.vendido);

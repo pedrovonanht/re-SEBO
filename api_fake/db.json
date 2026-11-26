@@ -1,5 +1,34 @@
 {
-  "anuncios": [],
-  "contas": [],
-  "livro": []
+  "anuncios": [
+    {
+      "id": 1,
+      "nome": "pedro",
+      "dono": 1,
+      "item": 1,
+      "preco": 89,
+      "qualidade": "Excelente",
+      "ativo": true,
+      "desconto": 0,
+      "vendido": false
+    }
+  ],
+  "contas": [
+    {
+      "id": 1,
+      "nome": "pedro",
+      "cpf": "1234",
+      "telefone": "1234",
+      "endereco": ""
+    }
+  ],
+  "itens": [
+    {
+      "id": 1,
+      "tipo": "Revista",
+      "nome": "pedro",
+      "descricao": "10",
+      "editora": "eu",
+      "edicao": 1
+    }
+  ]
 }

@@ -2,6 +2,8 @@ import PromptSync from "prompt-sync";
 import { Autor } from "../classes/autor.ts";
 import { Anuncio } from "../classes/anuncios.ts";
 import Livro from "../classes/livro.ts";
+import Revista from "../classes/revista.ts";
+import type { Item } from "../classes/item.ts";
 import type { Conta } from "../classes/conta.ts";
 
 const prompt = PromptSync({ sigint: true });
@@ -35,24 +37,54 @@ function perguntarAutores(): Autor[] {
   return autores;
 }
 
-function perguntar(): { titulo: string; descricao: string; autores: Autor[] } {
-  const titulo: string = prompt("Título: ");
-  const descricao: string = prompt("Descrição: ");
-  const autores: Autor[] = perguntarAutores();
+function perguntarTipo(): "Livro" | "Revista" {
+  while (true) {
+    console.log("1 - Livro");
+    console.log("2 - Revista");
+    const resposta: string = prompt("O que você quer anunciar? ") ?? "";
 
-  return { titulo, descricao, autores };
+    if (resposta === "1") return "Livro";
+    if (resposta === "2") return "Revista";
+
+    console.log("Resposta inválida. Digite 1 ou 2.");
+  }
+}
+
+function perguntarEdicao(): number {
+  while (true) {
+    const edicao = Number(prompt("Edição: "));
+
+    if (Number.isInteger(edicao) && edicao >= 1) {
+      return edicao;
+    }
+
+    console.log("A edição deve ser um número inteiro maior que 0.");
+  }
+}
+
+function criarLivro(nome: string, descricao: string): Livro {
+  const autores: Autor[] = perguntarAutores();
+  return new Livro({ nome, descricao, autores });
+}
+
+function criarRevista(nome: string, descricao: string): Revista {
+  const editora: string = prompt("Editora: ") ?? "";
+  const edicao: number = perguntarEdicao();
+  return new Revista({ nome, descricao, editora, edicao });
 }
 
 export default function anunciar(userAcount: Conta) {
-  const {
-    titulo,
-    descricao,
-    autores,
-  }: { titulo: string; descricao: string; autores: Autor[] } = perguntar();
-  
-  const livro: Livro = new Livro({ nome: titulo, autores: autores, descricao });
+  const tipo = perguntarTipo();
+  const titulo: string = prompt("Título: ") ?? "";
+  const descricao: string = prompt("Descrição: ") ?? "";
+
+  const item: Item =
+    tipo === "Livro"
+      ? criarLivro(titulo, descricao)
+      : criarRevista(titulo, descricao);
+
   const anuncio: Anuncio = new Anuncio({
-    livro: livro,
+    item,
     dono: userAcount,
     preco: 89,
     qualidade: "Excelente",
