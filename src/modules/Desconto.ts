@@ -1,6 +1,8 @@
 import PromptSync from "prompt-sync";
 import { Anuncio } from "../classes/anuncios.ts";
 import type { Conta } from "../classes/conta.ts";
+import { EntradaInvalidaError } from "../classes/entradaInvalidaError.ts";
+import lerOpcao from "./lerOpcao.ts";
 
 const prompt = PromptSync({ sigint: true });
 
@@ -21,16 +23,14 @@ function listarOpcoes(anuncios: Anuncio[]) {
 }
 
 function aplicar(anuncio: Anuncio) {
-  const resposta: string = prompt("Desconto em % (0 a 100): ") ?? "";
-  const porcentagemDesconto = Number(resposta.replace(",", "."));
-
-  if (resposta.trim() === "" || Number.isNaN(porcentagemDesconto)) {
-    console.log("Valor inválido");
-    prompt("Digite algo para continuar: ");
-    return;
-  }
-
   try {
+    const resposta: string = prompt("Desconto em % (0 a 100): ") ?? "";
+    const porcentagemDesconto = Number(resposta.replace(",", "."));
+
+    if (resposta.trim() === "" || Number.isNaN(porcentagemDesconto)) {
+      throw new EntradaInvalidaError("Valor inválido");
+    }
+
     anuncio.aplicarDesconto({ porcentagemDesconto });
     console.log(
       `Desconto de ${anuncio.desconto}% aplicado. Novo preço de venda: R$ ${anuncio.precoVenda().toFixed(2)}`,
@@ -53,13 +53,18 @@ export default function aplicarDesconto(userAcount: Conta) {
     }
 
     listarOpcoes(anuncios);
-    const resposta: string = prompt("Escolha um anúncio: ") ?? "";
+    let numero: number;
+    try {
+      numero = lerOpcao("Escolha um anúncio: ", anuncios.length);
+    } catch (e) {
+      if (!(e instanceof EntradaInvalidaError)) throw e;
+      console.clear();
+      console.log(e.message);
+      continue;
+    }
     console.clear();
 
-    const numero = Number(resposta);
-    if (resposta === "" || !Number.isInteger(numero) || numero < 0 || numero > anuncios.length) {
-      console.log("Resposta Inválida");
-    } else if (numero === anuncios.length) {
+    if (numero === anuncios.length) {
       continuar = false;
     } else {
       aplicar(anuncios[numero]!);
